@@ -2,6 +2,8 @@
 #include <QApplication>
 #include <QGridLayout>
 
+#include <QtWebEngineWidgets/QtWebEngineWidgets>
+
 #include <osgViewer/CompositeViewer>
 #include <osgViewer/ViewerEventHandlers>
 
@@ -10,8 +12,6 @@
 #include <osgDB/ReadFile>
 
 #include <osgQt/GraphicsWindowQt>
-
-#include <QtWebEngineWidgets/QtWebEngineWidgets>
 
 #include <iostream>
 
@@ -25,17 +25,17 @@ public:
         // disable the default setting of viewer.done() by pressing Escape.
         setKeyEventSetsDone(0);
 
-        QWidget* widget1 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("cow.osgt") );
-        QWidget* widget2 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("glider.osgt") );
-        QWidget* widget3 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("axes.osgt") );
-#if 0
-        QWidget* widget4 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("fountain.osgt") );
+        QWidget* widget1 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("cow.osgt"), this );
+        QWidget* widget2 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("cessna.osgt"), this );
+        QWidget* widget3 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("axes.osgt"), this );
+#if 1
+        QWidget* widget4 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readRefNodeFile("fountain.osgt"), this );
 #else
 
-        QWebEngineView* widget4 = new QWebEngineView();
+        QWebEngineView* widget4 = new QWebEngineView(this);
         widget4->load(QUrl(QLatin1String("http://google.fr")));
 #endif
-        QWidget* popupWidget = addViewWidget( createGraphicsWindow(900,100,320,240,"Popup window",true), osgDB::readRefNodeFile("dumptruck.osgt") );
+        QWidget* popupWidget = addViewWidget( createGraphicsWindow(900,100,320,240,"Popup window",true), osgDB::readRefNodeFile("dumptruck.osgt"), nullptr );
         popupWidget->show();
 
         QGridLayout* grid = new QGridLayout;
@@ -49,7 +49,7 @@ public:
         _timer.start( 10 );
     }
 
-    QWidget* addViewWidget( osgQt::GraphicsWindowQt* gw, osg::ref_ptr<osg::Node> scene )
+    QWidget* addViewWidget( osgQt::GraphicsWindowQt5* gw, osg::ref_ptr<osg::Node> scene, QWidget* parent )
     {
         osgViewer::View* view = new osgViewer::View;
         addView( view );
@@ -66,11 +66,10 @@ public:
         view->setSceneData( scene );
         view->addEventHandler( new osgViewer::StatsHandler );
         view->setCameraManipulator( new osgGA::MultiTouchTrackballManipulator );
-        gw->setTouchEventsEnabled( true );
-        return gw->getGLWidget();
+        return QWidget::createWindowContainer( gw->getGLWindow(), parent );
     }
 
-    osgQt::GraphicsWindowQt* createGraphicsWindow( int x, int y, int w, int h, const std::string& name="", bool windowDecoration=false )
+    osgQt::GraphicsWindowQt5* createGraphicsWindow( int x, int y, int w, int h, const std::string& name="", bool windowDecoration=false )
     {
         osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
         osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
@@ -86,7 +85,7 @@ public:
         traits->sampleBuffers = ds->getMultiSamples();
         traits->samples = ds->getNumMultiSamples();
 
-        return new osgQt::GraphicsWindowQt(traits.get());
+        return new osgQt::GraphicsWindowQt5(traits.get());
     }
 
     virtual void paintEvent( QPaintEvent* /*event*/ )

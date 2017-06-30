@@ -490,11 +490,11 @@ public:
         traits->width = width();
         traits->height = height();
         traits->doubleBuffer = true;
-        osgQt::GraphicsWindowQt* graphicsWindow = new osgQt::GraphicsWindowQt(traits.get());
+        osgQt::GraphicsWindowQt5* graphicsWindow = new osgQt::GraphicsWindowQt5(traits.get());
 
         QGridLayout* grid = new QGridLayout;
         grid->setMargin(0);
-        grid->addWidget(graphicsWindow->getGLWidget(), 0, 0);
+        grid->addWidget( QWidget::createWindowContainer(graphicsWindow->getGLWindow(), this), 0, 0);
         setLayout(grid);
 
         _viewer.setThreadingModel(osgViewer::Viewer::SingleThreaded);

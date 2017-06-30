@@ -15,11 +15,12 @@ SET(HEADER_PATH ${OpenSceneGraph_SOURCE_DIR}/include/osgQt)
 
 SET(SOURCES_H
     ${HEADER_PATH}/QGraphicsViewAdapter
+    ${HEADER_PATH}/GraphicsWindowQt
 )
+set(CMAKE_AUTOMOC ON)
 
 IF ( Qt5Widgets_FOUND )
-    QT5_WRAP_CPP( SOURCES_H_MOC ${SOURCES_H} OPTIONS
-          "-fosgQt/QGraphicsViewAdapter" )
+    QT5_WRAP_CPP( SOURCES_H_MOC ${SOURCES_H} )
     set(OSGQT_QT_VERSION 5)
 ELSE()
     QT4_WRAP_CPP( SOURCES_H_MOC ${SOURCES_H} OPTIONS "-f" )

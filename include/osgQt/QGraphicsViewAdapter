@@ -14,18 +14,16 @@
 #ifndef QGRAPHICSVIEWADAPTER
 #define QGRAPHICSVIEWADAPTER
 
-#include <QGLWidget>
-
-#include <osg/Image>
-#include <osg/observer_ptr>
-#include <osgQt/Export>
-
 #include <QPointer>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QApplication>
 #include <QPainter>
 #include <QtEvents>
+
+#include <osg/Image>
+#include <osg/observer_ptr>
+#include <osgQt/Export>
 
 namespace osgQt
 {
