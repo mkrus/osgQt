@@ -103,7 +103,11 @@ IF(APPLE)
     # and 32/64-bit Intel/PPC on >= 10.5. Anything <= 10.3 doesn't support.
     # These are set the first time CMake is run, and can be changed by
     # the user at any time.
-    IF(OSG_OSX_VERSION VERSION_GREATER 10.7)
+    IF(OSG_OSX_VERSION VERSION_GREATER 10.12)
+      # 64 Bit Works, i386,ppc is not supported any more
+      SET(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for OSX")
+      SET(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Target OSX version")
+    ELSEIF(OSG_OSX_VERSION VERSION_GREATER 10.7)
       # 64 Bit Works, i386,ppc is not supported any more
       SET(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for OSX")
       SET(CMAKE_OSX_DEPLOYMENT_TARGET "10.8" CACHE STRING "Target OSX version")
@@ -799,7 +803,10 @@ IF(APPLE)
         # FORCE is used because the options are not reflected in the UI otherwise.
         # Seems like a good place to add version specific compiler flags too.
         IF(NOT OSG_CONFIG_HAS_BEEN_RUN_BEFORE)
-          IF(OSG_OSX_VERSION VERSION_GREATER 10.7)
+          IF(OSG_OSX_VERSION VERSION_GREATER 10.12)
+            SET(OSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX "imageio" CACHE STRING "Forced imageio default image plugin for OSX" FORCE)
+            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility-inlines-hidden" CACHE STRING "Flags used by the compiler during all build types." FORCE)
+          ELSEIF(OSG_OSX_VERSION VERSION_GREATER 10.7)
             SET(OSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX "imageio" CACHE STRING "Forced imageio default image plugin for OSX" FORCE)
             SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility-inlines-hidden" CACHE STRING "Flags used by the compiler during all build types." FORCE)
           ELSEIF(OSG_OSX_VERSION VERSION_EQUAL 10.7)
