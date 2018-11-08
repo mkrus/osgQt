@@ -1013,3 +1013,27 @@ ADD_CUSTOM_TARGET(uninstall
 
 #
 
+# Make it easily editable from project tree
+add_custom_target(Others
+    SOURCES
+        ${CMAKE_SOURCE_DIR}/packaging/macdeployqt/openscenegraph-osgQt.json
+)
+
+# The needed changes are not yet upstreamed, let hard code the path to the tool
+set(TOOLS_PWD /Volumes/KDAB/Builds/macdeployqt-Desktop_Qt_5_11_2_clang_64bit-Debug/bin)
+
+# Get the osg plugins path
+file(TO_NATIVE_PATH "/" DIR_SEPARATOR)
+GET_FILENAME_COMPONENT(OSG_LIBRARY_DIR ${OSGUTIL_LIBRARY} DIRECTORY)
+SET(OSG_PLUGINS_DIR ${OSG_LIBRARY_DIR}${DIR_SEPARATOR}${OSG_PLUGINS})
+
+# Packaging using json based macdeployqt tool
+add_custom_target(qpackage
+    SOURCE_ROOT_PWD=${CMAKE_SOURCE_DIR}
+    BUILD_ROOT_PWD=${CMAKE_BINARY_DIR}
+    OSG_LIBRARY_DIR=${OSG_LIBRARY_DIR}
+    OSG_PLUGINS_DIR=${OSG_PLUGINS_DIR}
+    ${TOOLS_PWD}/macdeployqt
+        .
+        -deploy-rules=${CMAKE_SOURCE_DIR}//packaging/macdeployqt/openscenegraph-osgQt.json
+)

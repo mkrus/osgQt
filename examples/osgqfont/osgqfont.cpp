@@ -532,6 +532,15 @@ int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
 
+#if defined(Q_OS_MACX)
+    const QStringList paths {
+        QCoreApplication::applicationDirPath().append(QStringLiteral("/../Frameworks")),
+        QCoreApplication::applicationDirPath().append(QStringLiteral("/../PlugIns/osgPlugins"))
+    };
+    qputenv("OSG_LIBRARY_PATH", qUtf8Printable(paths.join(QLatin1Char(':'))));
+    osgDB::Registry::instance()->initFilePathLists();
+#endif
+
     // prepare scene.
     osg::Vec3 center(0.0f,0.0f,0.0f);
     float radius = 1.0f;

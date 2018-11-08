@@ -112,6 +112,16 @@ int main( int argc, char** argv )
 #endif
 
     QApplication app(argc, argv);
+
+#if defined(Q_OS_MACX)
+    const QStringList paths {
+        QCoreApplication::applicationDirPath().append(QStringLiteral("/../Frameworks")),
+        QCoreApplication::applicationDirPath().append(QStringLiteral("/../PlugIns/osgPlugins"))
+    };
+    qputenv("OSG_LIBRARY_PATH", qUtf8Printable(paths.join(QLatin1Char(':'))));
+    osgDB::Registry::instance()->initFilePathLists();
+#endif
+
     ViewerWidget* viewWidget = new ViewerWidget(0, Qt::Widget, threadingModel);
     viewWidget->setGeometry( 100, 100, 800, 600 );
     viewWidget->show();

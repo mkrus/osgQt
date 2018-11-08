@@ -1,0 +1,77 @@
+{
+    "name": "OpenSceneGraphQt",
+    "defaultOptions": {
+        "verbosity": 1,
+        "skipPlugins": false,
+        "skipStrip": false,
+        "useDebugLibraries": false,
+        "forceOverwrite": true,
+        "storeCompliant": false,
+        "codeSignIdentity": "Developer ID Application",
+        "dmgFileSystem": "HFS+",
+        "shadowDeploy": true,
+        "compressionLevel": 9
+    },
+    "deployments": {
+        "osgViewerQt": {
+            "storageLocation": "${BUILD_ROOT_PWD}/bin/deployments",
+            "applicationBundle": "${BUILD_ROOT_PWD}/bin/osgviewerQt5.app",
+            "librariesPaths": [
+                "${OSG_LIBRARY_DIR}"
+            ],
+            "copies": [
+                {
+                    "source": "${OSG_PLUGINS_DIR}",
+                    "target": "Contents/PlugIns/osgPlugins"
+                }
+            ]
+        },
+        "osgFontQt": {
+            "storageLocation": "${BUILD_ROOT_PWD}/bin/deployments",
+            "applicationBundle": "${BUILD_ROOT_PWD}/bin/osgqfontQt5.app",
+            "librariesPaths": [
+                "${OSG_LIBRARY_DIR}"
+            ],
+            "copies": [
+                {
+                    "source": "${OSG_PLUGINS_DIR}",
+                    "target": "Contents/PlugIns/osgPlugins"
+                }
+            ]
+        }
+    },
+    "packages": {
+        "osgViewerQt": {
+            "enabled": false,
+            "format": {
+                "type": "dmg",
+                "options": {
+                    "compressionLevel": 3
+                }
+            },
+            "links": {
+                "License.txt": "Contents/Resources/license.txt",
+                "ReadMe.txt": "Contents/Resources/readme.txt",
+                "Applications": "/Applications"
+            },
+            "finder": {
+                "window": {
+                    "position": "55,85",
+                    "size": "400x300",
+                    "icon": "Contents/Resources/icon.icns",
+                    "background": "Contents/Resources/background.png",
+                    "textSize": 10
+                },
+                "icons": {
+                    "size": 64,
+                    "positions": {
+                        "Applications": "356,40",
+                        "License.txt": "12,229",
+                        "ReadMe.txt": "356,229",
+                        "app.app": "200,150"
+                    }
+                }
+            }
+        }
+    }
+}
