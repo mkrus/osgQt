@@ -22,9 +22,8 @@ ELSE()
     SET ( EXAMPLE_NAME osgviewerQt )
 ENDIF()
 
-SETUP_EXAMPLE( ${EXAMPLE_NAME} )
+SETUP_EXAMPLE( ${EXAMPLE_NAME} 0 )
 
 IF ( Qt5Widgets_FOUND )
     qt5_use_modules( example_${EXAMPLE_NAME} Widgets OpenGL )
 ENDIF( Qt5Widgets_FOUND )
-

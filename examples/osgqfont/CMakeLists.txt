@@ -10,11 +10,11 @@ ENDIF()
 
 #### end var setup  ###
 IF ( Qt5Widgets_FOUND )
-    SET ( EXAMPLE_NAME osgqfont-qt5 )
+    SET ( EXAMPLE_NAME osgqfontQt5 )
 ELSE()
     SET ( EXAMPLE_NAME osgqfont )
 ENDIF()
-SETUP_EXAMPLE(${EXAMPLE_NAME})
+SETUP_EXAMPLE( ${EXAMPLE_NAME} 0 )
 
 IF ( Qt5Widgets_FOUND )
     qt5_use_modules( example_${EXAMPLE_NAME} Widgets OpenGL )
